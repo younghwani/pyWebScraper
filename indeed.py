@@ -20,11 +20,14 @@ def extract_job(html):
     title = html.find('h2', class_='title').find('a')['title']
     company = html.find('span', class_='company')
     company_anchor = company.find('a')
-    if company_anchor is not None:
-        company = str(company_anchor.string)
+    if company:
+        if company_anchor is not None:
+            company = str(company_anchor.string)
+        else:
+            company = str(company.string)
+        company = company.strip()
     else:
-        company = str(company.string)
-    company = company.strip()
+        company = None
     location = html.find('div', class_='recJobLoc')['data-rc-loc']
     job_id = html['data-jk']
     return {'title':title, 'company':company, 'location':location,
